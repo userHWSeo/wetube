@@ -27,7 +27,7 @@ export const postJoin = async (req, res) => {
       password,
       location,
     });
-    res.redirect("/login");
+    return res.redirect("/login");
   } catch (error) {
     return res.status(400).render("join", {
       pageTitle: "Upload Video",
@@ -35,9 +35,9 @@ export const postJoin = async (req, res) => {
     });
   }
 };
-
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Login" });
+
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "Login";
@@ -51,7 +51,7 @@ export const postLogin = async (req, res) => {
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return res.status(400).render("login", {
-      pageTitle: "Login",
+      pageTitle,
       errorMessage: "Wrong password.",
     });
   }
@@ -137,5 +137,27 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", { pageTitle: "Edit profile" });
+};
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updateUser;
+  return res.redirect("/users/edit");
+};
 export const see = (req, res) => res.send("See User");
