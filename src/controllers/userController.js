@@ -123,10 +123,10 @@ export const finishGithubLogin = async (req, res) => {
         socialOnly: true,
         location: userData.location,
       });
-      req.session.loggedIn = true;
-      req.session.user = user;
-      return res.redirect("/");
     }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
   } else {
     return res.redirect("/login");
   }
@@ -147,7 +147,7 @@ export const postEdit = async (req, res) => {
     },
     body: { name, email, username, location },
   } = req;
-  const updateUser = await User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
       name,
@@ -157,7 +157,7 @@ export const postEdit = async (req, res) => {
     },
     { new: true }
   );
-  req.session.user = updateUser;
+  req.session.user = updatedUser;
   return res.redirect("/users/edit");
 };
 export const see = (req, res) => res.send("See User");
