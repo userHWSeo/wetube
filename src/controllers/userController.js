@@ -181,7 +181,7 @@ export const getChangePassword = (req, res) => {
 export const postChangePassword = async (req, res) => {
   const {
     session: {
-      user: { _id, password },
+      user: { _id },
     },
     body: { oldpassword, newPassword, newPasswordConfirmation },
   } = req;
