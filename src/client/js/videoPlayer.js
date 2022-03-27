@@ -17,7 +17,7 @@ let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
-const handlePlayClick = (e) => {
+const handlePlayClick = () => {
   if (video.paused) {
     video.play();
   } else {
@@ -26,7 +26,7 @@ const handlePlayClick = (e) => {
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
-const handleMuteClick = (e) => {
+const handleMuteClick = () => {
   if (video.muted) {
     video.muted = false;
   } else {
@@ -42,12 +42,16 @@ const handleVolumeChange = (event) => {
   const {
     target: { value },
   } = event;
-  if (video.muted) {
-    video.muted = false;
-    muteBtn.innerText = "Mute";
-  }
   volumeValue = value;
   video.volume = value;
+  if (video.muted) {
+    video.muted = false;
+    muteBtnIcon.classList = "fas fa-volume-up";
+  }
+  if (volumeValue == 0) {
+    video.muted = true;
+    muteBtnIcon.classList = "fas fa-volume-mute";
+  }
 };
 
 const formatTime = (seconds) =>
@@ -109,8 +113,8 @@ const handleClickPlay = () => {
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
-const handleClickKeyPlay = (e) => {
-  if (e.keyCode == 32) {
+const handleClickKeyPlay = (event) => {
+  if (event.keyCode == 32) {
     if (video.paused) {
       video.play();
     } else {
