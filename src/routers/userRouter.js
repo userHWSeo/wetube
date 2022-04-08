@@ -18,7 +18,7 @@ import {
 
 const userRouter = express.Router();
 
-userRouter.get("/logout", logout);
+userRouter.get("/logout", protectorMiddleware, logout);
 userRouter
   .route("/edit")
   .all(protectorMiddleware)
