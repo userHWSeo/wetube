@@ -27,12 +27,6 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  req.sessionStore.all((error, sessions) => {
-    next();
-  });
-});
-
 app.use(flash());
 app.use(localsMiddleware);
 app.use("/upload", express.static("upload"));
